@@ -31,7 +31,11 @@
       box-shadow: 0 12px 40px rgba(0,0,0,.055);
     }
     .brand { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; font-weight: 650; }
+    .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-links { display: flex; gap: 18px; font-size: 13px; color: var(--muted); }
+    .language-switcher { display: flex; gap: 6px; font-size: 12px; color: var(--muted); border-left: 1px solid var(--line); padding-left: 14px; }
+    .language-switcher a { padding: 5px 8px; border-radius: 999px; transition: .2s ease; }
+    .language-switcher a:hover, .language-switcher a.active { background: var(--ink); color: var(--paper); }
     .hero { min-height: 100vh; display: grid; place-items: center; padding: 140px 24px 80px; }
     .hero-inner { width: min(1120px,100%); display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center; }
     .eyebrow { color: var(--muted); text-transform: uppercase; letter-spacing: .17em; font-size: 12px; font-weight: 750; margin-bottom: 24px; }
@@ -71,6 +75,8 @@
     footer { padding:28px 24px 40px; color:var(--muted); font-size:13px; text-align:center; }
     @media (max-width: 860px) {
       .nav-links { display:none; }
+      .nav-right { gap: 8px; }
+      .language-switcher { border-left: none; padding-left: 0; }
       .hero-inner, .section-header, .grid-3 { grid-template-columns:1fr; }
       .visual-card { min-height:420px; }
     }
@@ -79,11 +85,18 @@
 <body>
   <nav class="nav">
     <a href="#top" class="brand" id="site-title">Alex Zaviiskyi</a>
-    <div class="nav-links">
-      <a href="#about-dynamic">About</a>
-      <a href="#practice-dynamic">Practice</a>
-      <a href="#projects-dynamic">Projects</a>
-      <a href="#notes-dynamic">Notes</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#about-dynamic">About</a>
+        <a href="#practice-dynamic">Practice</a>
+        <a href="#projects-dynamic">Projects</a>
+        <a href="#notes-dynamic">Notes</a>
+      </div>
+      <div class="language-switcher" aria-label="Language switcher">
+        <a href="/en/" id="lang-en">EN</a>
+        <a href="/ru/" id="lang-ru">RU</a>
+        <a href="/es/" id="lang-es">ES</a>
+      </div>
     </div>
   </nav>
 
@@ -103,7 +116,7 @@
         <div class="visual-card">
           <div class="floating-panel">
             <h3>A living structure.</h3>
-            <p>The site is connected to Sanity and can evolve through content, notes, projects and principles.</p>
+            <p>The site is connected to Sanity and can evolve through content, notes, projects and practice.</p>
           </div>
         </div>
       </div>
@@ -126,16 +139,6 @@
           <p id="practice-intro"></p>
         </div>
         <div class="grid-3" id="practice-cards"></div>
-      </div>
-    </section>
-
-    <section id="principles-dynamic" class="dynamic-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Principles</h2>
-          <p>Fundamental observations edited directly in Sanity.</p>
-        </div>
-        <div class="grid-3" id="principles-list"></div>
       </div>
     </section>
 
@@ -174,13 +177,15 @@
 
     const pathLang = window.location.pathname.split('/').filter(Boolean)[0]
     const lang = ['en', 'ru', 'es'].includes(pathLang) ? pathLang : 'en'
+    document.documentElement.lang = lang
+    const activeLang = document.getElementById('lang-' + lang)
+    if (activeLang) activeLang.classList.add('active')
 
     const query = encodeURIComponent(`{
       "siteSettings": *[_type == "siteSettings"][0]{siteTitle, subtitle, email, instagram, telegram},
-      "homePage": *[_type == "homePage"][0]{heroEyebrow, heroTitle, heroCopy, heroNote, intro, philosophyBlock, closingLine},
+      "homePage": *[_type == "homePage"][0]{heroEyebrow, heroTitle, heroCopy, heroNote, intro, philosophyBlock, closingLine, currentFocus},
       "aboutPage": *[_type == "aboutPage"][0]{intro, practiceBackground, currentDirection, closing},
       "practicePage": *[_type == "practicePage"][0]{intro, tmSection, sriYogaSection, siddhiDirection, participation, donation},
-      "principles": *[_type == "principle"] | order(order asc){title, statement, reflection, order},
       "notes": *[_type == "note"] | order(publishedAt desc){title, slug, shortText, longText, publishedAt},
       "projects": *[_type == "project"] | order(_createdAt asc){title, slug, description, status, externalLink}
     }`)
@@ -243,18 +248,6 @@
       }
     }
 
-    function renderPrinciples(principles = []) {
-      const visible = principles.filter(item => read(item.title) || read(item.statement) || read(item.reflection))
-      if (!visible.length) return
-      document.getElementById('principles-list').innerHTML = visible.map((item, index) => {
-        const title = read(item.title) || 'Untitled'
-        const body = read(item.statement) || read(item.reflection)
-        const label = item.order ? String(item.order).padStart(2, '0') : String(index + 1).padStart(2, '0')
-        return card(label, title, body)
-      }).join('')
-      showSection('principles-dynamic')
-    }
-
     function renderNotes(notes = []) {
       const visible = notes.filter(item => read(item.title) || read(item.shortText) || read(item.longText))
       if (!visible.length) return
@@ -295,12 +288,11 @@
           setText('hero-title', data.homePage.heroTitle)
           setText('hero-copy', data.homePage.heroCopy)
           setText('hero-note', data.homePage.heroNote)
-          setText('closing-text', data.homePage.closingLine)
+          setText('closing-text', data.homePage.closingLine || data.homePage.currentFocus)
         }
 
         renderAbout(data.aboutPage)
         renderPractice(data.practicePage)
-        renderPrinciples(data.principles)
         renderNotes(data.notes)
         renderProjects(data.projects)
       } catch (err) {
