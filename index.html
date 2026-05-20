@@ -150,5 +150,30 @@
     </section>
   </main>
   <footer>Alex Zaviiskyi · Hospitality Operations & Guest Experience Systems · Dominican Republic</footer>
+  <script type="module">
+  import { createClient } from 'https://cdn.skypack.dev/@sanity/client'
+
+  const client = createClient({
+    projectId: '0po0panc',
+    dataset: 'production',
+    apiVersion: '2025-05-20',
+    useCdn: true,
+  })
+
+  const query = `*[_type == "homePage"][0]{
+    heroEyebrow,
+    heroTitle,
+    heroCopy,
+    heroNote
+  }`
+
+  async function loadContent() {
+    const data = await client.fetch(query)
+
+    console.log('SANITY DATA:', data)
+  }
+
+  loadContent()
+</script>
 </body>
 </html>
