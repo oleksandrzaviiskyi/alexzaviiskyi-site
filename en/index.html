@@ -19,38 +19,155 @@
     .visual-card{min-height:520px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80") center/cover;border:1px solid var(--line);overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.10)}
     section{padding:96px 24px}.container{width:min(1080px,100%);margin:0 auto}.section-header{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;margin-bottom:38px;align-items:start}
     .section-header h2{margin:0;font-size:clamp(30px,4vw,52px);line-height:1.04;letter-spacing:-.035em;font-weight:430}.section-header p{margin:0;color:var(--muted);line-height:1.75;font-size:16px}
+    .text-block{max-width:760px;color:#252525;font-size:19px;line-height:1.75;white-space:pre-line}
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--soft);border:1px solid rgba(0,0,0,.06);border-radius:22px;padding:24px;min-height:190px}
     .card-number{color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:22px}.card h3{margin:0 0 12px;font-size:22px;letter-spacing:-.025em;font-weight:460}.card p{margin:0;color:var(--muted);line-height:1.72;font-size:15px;white-space:pre-line}
     .quote{padding:96px 24px;text-align:center}.quote blockquote{width:min(800px,100%);margin:0 auto;font-size:clamp(30px,4.2vw,58px);line-height:1.12;letter-spacing:-.045em;font-weight:420}.quote p{margin:26px auto 0;width:min(620px,100%);color:var(--muted);line-height:1.7;font-size:15px}
     .dynamic-section{display:none}.dynamic-section.is-visible{display:block}footer{padding:28px 24px 42px;color:var(--muted);font-size:13px;text-align:center}
-    @media(max-width:860px){.nav-links{display:none}.language-switcher{border-left:none;padding-left:0}.hero-inner,.section-header,.grid-3{grid-template-columns:1fr}.hero{padding-top:120px}.visual-card{min-height:360px}}
+    @media(max-width:860px){.nav-links{display:none}.language-switcher{border-left:none;padding-left:0}.hero-inner,.section-header,.grid-3{grid-template-columns:1fr}.hero{padding-top:120px}.visual-card{min-height:360px}.text-block{font-size:17px}}
   </style>
 </head>
 <body>
-  <nav class="nav"><a href="#top" class="brand" id="site-title">Alex Zaviiskyi</a><div class="nav-right"><div class="nav-links"><a href="#about-dynamic">About</a><a href="#practice-dynamic">Practice</a><a href="#projects-dynamic">Projects</a><a href="#notes-dynamic">Notes</a></div><div class="language-switcher"><a href="/en/" id="lang-en">EN</a><a href="/ru/" id="lang-ru">RU</a><a href="/es/" id="lang-es">ES</a></div></div></nav>
+  <nav class="nav">
+    <a href="#top" class="brand" id="site-title">Alex Zaviiskyi</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#about-dynamic" data-label="about">About</a>
+        <a href="#practice-dynamic" data-label="practice">Practice</a>
+        <a href="#projects-dynamic" data-label="projects">Projects</a>
+        <a href="#notes-dynamic" data-label="notes">Notes</a>
+      </div>
+      <div class="language-switcher"><a href="/en/" id="lang-en">EN</a><a href="/ru/" id="lang-ru">RU</a><a href="/es/" id="lang-es">ES</a></div>
+    </div>
+  </nav>
+
   <main id="top">
-    <section class="hero"><div class="hero-inner"><div><div class="eyebrow" id="hero-eyebrow">Practice · Hospitality · Inner Development</div><h1 id="hero-title">A human life gradually reorganizing itself around practice and inner development.</h1><p class="hero-copy" id="hero-copy">This site is a simple living structure for several connected directions: practice, hospitality systems, Vedic technologies, and observations on consciousness.</p><p class="hero-note" id="hero-note">It is not a finished philosophy or personal brand. It is a place where real experience, projects, and practice can gradually become more clear.</p><div class="cta-row"><a class="button primary" href="#projects-dynamic">Projects</a><a class="button" href="#about-dynamic">About</a></div></div><div class="visual-card" aria-label="Quiet visual image"></div></div></section>
-    <section id="about-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>About</h2><p id="about-intro"></p></div><div class="grid-3" id="about-cards"></div></div></section>
-    <section id="practice-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Practice</h2><p id="practice-intro"></p></div><div class="grid-3" id="practice-cards"></div></div></section>
-    <section id="projects-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Projects</h2><p>Active directions and related work connected to this personal site.</p></div><div class="grid-3" id="projects-list"></div></div></section>
-    <section id="notes-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Notes</h2><p>Short observations, fragments, and living thoughts.</p></div><div class="grid-3" id="notes-list"></div></div></section>
-    <section class="quote" id="contact"><blockquote>A coherent life may begin when inner development and practical life stop fighting each other.</blockquote><p id="closing-text">This site will stay simple while the structure becomes clearer over time.</p></section>
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow" id="hero-eyebrow">Practice · Hospitality · Inner Development</div>
+          <h1 id="hero-title">A human life gradually reorganizing itself around practice and inner development.</h1>
+          <p class="hero-copy" id="hero-copy">This site is a simple living structure for several connected directions: practice, hospitality systems, Vedic technologies, and observations on consciousness.</p>
+          <p class="hero-note" id="hero-note">It is not a finished philosophy or personal brand. It is a place where real experience, projects, and practice can gradually become more clear.</p>
+          <div class="cta-row"><a class="button primary" href="#projects-dynamic" data-label="projects">Projects</a><a class="button" href="#about-dynamic" data-label="about">About</a></div>
+        </div>
+        <div class="visual-card" aria-label="Quiet visual image"></div>
+      </div>
+    </section>
+
+    <section id="about-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-label="about">About</h2>
+          <p id="about-intro"></p>
+        </div>
+        <div class="text-block" id="about-text"></div>
+      </div>
+    </section>
+
+    <section id="practice-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-label="practice">Practice</h2>
+          <p id="practice-intro"></p>
+        </div>
+        <div class="text-block" id="practice-text"></div>
+      </div>
+    </section>
+
+    <section id="projects-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-label="projects">Projects</h2>
+          <p data-label="projectsIntro">Active directions and related work connected to this personal site.</p>
+        </div>
+        <div class="grid-3" id="projects-list"></div>
+      </div>
+    </section>
+
+    <section id="notes-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-label="notes">Notes</h2>
+          <p data-label="notesIntro">Short observations, fragments, and living thoughts.</p>
+        </div>
+        <div class="grid-3" id="notes-list"></div>
+      </div>
+    </section>
+
+    <section class="quote" id="contact">
+      <blockquote id="final-quote">A coherent life may begin when inner development and practical life stop fighting each other.</blockquote>
+      <p id="closing-text">This site will stay simple while the structure becomes clearer over time.</p>
+    </section>
   </main>
+
   <footer id="footer-text">Alex Zaviiskyi · Dominican Republic</footer>
+
   <script>
     const PROJECT_ID='0po0panc',DATASET='production',API_VERSION='2025-05-20';
-    const pathLang=window.location.pathname.split('/').filter(Boolean)[0];const lang=['en','ru','es'].includes(pathLang)?pathLang:'en';document.documentElement.lang=lang;const activeLang=document.getElementById('lang-'+lang);if(activeLang)activeLang.classList.add('active');
+    const pathLang=window.location.pathname.split('/').filter(Boolean)[0];
+    const lang=['en','ru','es'].includes(pathLang)?pathLang:'en';
+    document.documentElement.lang=lang;
+
+    const labels={
+      en:{about:'About',practice:'Practice',projects:'Projects',notes:'Notes',projectsIntro:'Active directions and related work connected to this personal site.',notesIntro:'Short observations, fragments, and living thoughts.',finalQuote:'A coherent life may begin when inner development and practical life stop fighting each other.'},
+      ru:{about:'Обо мне',practice:'Практика',projects:'Проекты',notes:'Заметки',projectsIntro:'Активные направления и работы, связанные с этим личным сайтом.',notesIntro:'Короткие наблюдения, фрагменты и живые мысли.',finalQuote:'Целостная жизнь может начаться там, где внутреннее развитие и практическая жизнь перестают конфликтовать.'},
+      es:{about:'Sobre mí',practice:'Práctica',projects:'Proyectos',notes:'Notas',projectsIntro:'Direcciones activas y trabajos relacionados con este sitio personal.',notesIntro:'Observaciones breves, fragmentos y pensamientos vivos.',finalQuote:'Una vida coherente puede comenzar cuando el desarrollo interior y la vida práctica dejan de luchar entre sí.'}
+    };
+
+    document.querySelectorAll('[data-label]').forEach(el=>{
+      const key=el.getAttribute('data-label');
+      if(labels[lang]&&labels[lang][key]) el.innerText=labels[lang][key];
+    });
+    document.getElementById('final-quote').innerText=labels[lang].finalQuote;
+    const activeLang=document.getElementById('lang-'+lang);if(activeLang)activeLang.classList.add('active');
+
     const query=encodeURIComponent(`{"siteSettings":*[_type=="siteSettings"][0]{siteTitle,subtitle,email,instagram,telegram},"homePage":*[_type=="homePage"][0]{heroEyebrow,heroTitle,heroCopy,heroNote,intro,philosophyBlock,closingLine,currentFocus},"aboutPage":*[_type=="aboutPage"][0]{intro,practiceBackground,currentDirection,closing},"practicePage":*[_type=="practicePage"][0]{intro,tmSection,sriYogaSection,siddhiDirection,participation,donation},"notes":*[_type=="note"]|order(publishedAt desc)[0...3]{title,slug,shortText,longText,publishedAt},"projects":*[_type=="project"]|order(_createdAt asc)[0...3]{title,slug,description,status,externalLink}}`);
     const url=`https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`;
+
     function read(value){if(!value)return'';if(typeof value==='string')return value;if(typeof value==='object')return value[lang]||value.en||value.ru||value.es||'';return''}
     function setText(id,value){const el=document.getElementById(id);const text=read(value);if(el&&text)el.innerText=text}
     function showSection(id){const el=document.getElementById(id);if(el)el.classList.add('is-visible')}
     function card(label,title,body){return `<article class="card">${label?`<div class="card-number">${label}</div>`:''}${title?`<h3>${title}</h3>`:''}${body?`<p>${body}</p>`:''}</article>`}
-    function renderAbout(about){if(!about)return;setText('about-intro',about.intro);const items=[['Practice Background',read(about.practiceBackground)],['Current Direction',read(about.currentDirection)],['Closing',read(about.closing)]].filter(i=>i[1]);if(items.length||read(about.intro)){document.getElementById('about-cards').innerHTML=items.map(([t,b])=>card('',t,b)).join('');showSection('about-dynamic')}}
-    function renderPractice(practice){if(!practice)return;setText('practice-intro',practice.intro);const items=[['TM',read(practice.tmSection)],['Sri Yoga Asanas',read(practice.sriYogaSection)],['Siddhi Direction',read(practice.siddhiDirection)],['Participation',read(practice.participation)],['Donation',read(practice.donation)]].filter(i=>i[1]);if(items.length||read(practice.intro)){document.getElementById('practice-cards').innerHTML=items.map(([t,b])=>card('',t,b)).join('');showSection('practice-dynamic')}}
-    function renderProjects(projects=[]){const visible=projects.filter(i=>read(i.title)||read(i.description));if(!visible.length)return;document.getElementById('projects-list').innerHTML=visible.map((i,n)=>card(read(i.status)||String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.description))).join('');showSection('projects-dynamic')}
-    function renderNotes(notes=[]){const visible=notes.filter(i=>read(i.title)||read(i.shortText)||read(i.longText));if(!visible.length)return;document.getElementById('notes-list').innerHTML=visible.map((i,n)=>card(String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.shortText)||read(i.longText))).join('');showSection('notes-dynamic')}
-    async function loadContent(){try{const res=await fetch(url);const json=await res.json();const data=json.result||{};if(data.siteSettings){setText('site-title',data.siteSettings.siteTitle);setText('footer-text',data.siteSettings.subtitle)}if(data.homePage){setText('hero-eyebrow',data.homePage.heroEyebrow);setText('hero-title',data.homePage.heroTitle);setText('hero-copy',data.homePage.heroCopy);setText('hero-note',data.homePage.heroNote);setText('closing-text',data.homePage.closingLine||data.homePage.currentFocus)}renderAbout(data.aboutPage);renderPractice(data.practicePage);renderProjects(data.projects);renderNotes(data.notes)}catch(err){console.error('SANITY LOAD ERROR:',err)}}
+
+    function renderAbout(about){
+      if(!about)return;
+      setText('about-intro',about.intro);
+      const body=[read(about.practiceBackground),read(about.currentDirection),read(about.closing)].filter(Boolean).join('\n\n');
+      if(body){document.getElementById('about-text').innerText=body}
+      if(read(about.intro)||body)showSection('about-dynamic');
+    }
+
+    function renderPractice(practice){
+      if(!practice)return;
+      setText('practice-intro',practice.intro);
+      const body=[read(practice.tmSection),read(practice.sriYogaSection),read(practice.siddhiDirection),read(practice.participation),read(practice.donation)].filter(Boolean).join('\n\n');
+      if(body){document.getElementById('practice-text').innerText=body}
+      if(read(practice.intro)||body)showSection('practice-dynamic');
+    }
+
+    function renderProjects(projects=[]){
+      const visible=projects.filter(i=>read(i.title)||read(i.description));
+      if(!visible.length)return;
+      document.getElementById('projects-list').innerHTML=visible.map((i,n)=>card(read(i.status)||String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.description))).join('');
+      showSection('projects-dynamic');
+    }
+
+    function renderNotes(notes=[]){
+      const visible=notes.filter(i=>read(i.title)||read(i.shortText)||read(i.longText));
+      if(!visible.length)return;
+      document.getElementById('notes-list').innerHTML=visible.map((i,n)=>card(String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.shortText)||read(i.longText))).join('');
+      showSection('notes-dynamic');
+    }
+
+    async function loadContent(){
+      try{
+        const res=await fetch(url);const json=await res.json();const data=json.result||{};
+        if(data.siteSettings){setText('site-title',data.siteSettings.siteTitle);setText('footer-text',data.siteSettings.subtitle)}
+        if(data.homePage){setText('hero-eyebrow',data.homePage.heroEyebrow);setText('hero-title',data.homePage.heroTitle);setText('hero-copy',data.homePage.heroCopy);setText('hero-note',data.homePage.heroNote);setText('closing-text',data.homePage.closingLine||data.homePage.currentFocus)}
+        renderAbout(data.aboutPage);renderPractice(data.practicePage);renderProjects(data.projects);renderNotes(data.notes);
+      }catch(err){console.error('SANITY LOAD ERROR:',err)}
+    }
     loadContent();
   </script>
 </body>
