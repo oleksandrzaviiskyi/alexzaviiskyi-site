@@ -98,10 +98,10 @@
     <section class="hero">
       <div class="hero-inner">
         <div>
-          <div class="eyebrow">Human Development · Practice · Daily Life</div>
-          <h1>A simple human life developing internally and externally at the same time.</h1>
-          <p class="hero-copy">My life gradually evolved around two parallel interests: hospitality systems and inner human development. One explores how people, spaces, and operations can work together more coherently. The other explores attention, nervous system development, collective practice, and the effect of rhythm and environment on human experience.</p>
-          <p class="hero-note">I am not interested in mysticism or ideological extremes. I am interested in how life changes when the human nervous system becomes calmer, clearer, and less fragmented — both internally and in the environments we create around ourselves.</p>
+          <div class="eyebrow" id="hero-eyebrow">Human Development · Practice · Daily Life</div>
+          <h1 id="hero-title">A simple human life developing internally and externally at the same time.</h1>
+          <p class="hero-copy" id="hero-copy">My life gradually evolved around two parallel interests: hospitality systems and inner human development. One explores how people, spaces, and operations can work together more coherently. The other explores attention, nervous system development, collective practice, and the effect of rhythm and environment on human experience.</p>
+          <p class="hero-note" id="hero-note">I am not interested in mysticism or ideological extremes. I am interested in how life changes when the human nervous system becomes calmer, clearer, and less fragmented — both internally and in the environments we create around ourselves.</p>
           <div class="cta-row">
             <a class="button primary" href="#contact">Start a conversation</a>
             <a class="button" href="#systems">View approach</a>
@@ -160,6 +160,12 @@
     useCdn: true,
   })
 
+  const lang = window.location.pathname.startsWith('/ru')
+    ? 'ru'
+    : window.location.pathname.startsWith('/es')
+      ? 'es'
+      : 'en'
+
   const query = `*[_type == "homePage"][0]{
     heroEyebrow,
     heroTitle,
@@ -167,10 +173,30 @@
     heroNote
   }`
 
-  async function loadContent() {
-    const data = await client.fetch(query)
+  function localized(value) {
+    if (!value) return ''
+    if (typeof value === 'string') return value
+    return value[lang] || value.en || value.ru || value.es || ''
+  }
 
-    console.log('SANITY DATA:', data)
+  function setText(id, value) {
+    const el = document.getElementById(id)
+    const text = localized(value)
+    if (el && text) el.textContent = text
+  }
+
+  async function loadContent() {
+    try {
+      const data = await client.fetch(query)
+      console.log('SANITY DATA:', data)
+
+      setText('hero-eyebrow', data?.heroEyebrow)
+      setText('hero-title', data?.heroTitle)
+      setText('hero-copy', data?.heroCopy)
+      setText('hero-note', data?.heroNote)
+    } catch (error) {
+      console.error('Sanity loading error:', error)
+    }
   }
 
   loadContent()
