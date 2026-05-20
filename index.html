@@ -5,302 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alex Zaviiskyi — Personal Site</title>
   <style>
-    :root {
-      --bg: #f5f5f2; --paper: #ffffff; --ink: #111111; --muted: #646464;
-      --soft-muted: #8a8a8a; --line: rgba(0,0,0,.10); --line-soft: rgba(0,0,0,.06);
-      --soft: rgba(255,255,255,.76); --radius: 28px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 80% 0%, rgba(0,0,0,.055), transparent 34%),
-        radial-gradient(circle at 12% 16%, rgba(0,0,0,.035), transparent 30%),
-        var(--bg);
-    }
-    a { color: inherit; text-decoration: none; }
-    .nav {
-      position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
-      width: min(1120px, calc(100% - 32px)); z-index: 20;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 16px; border: 1px solid var(--line); border-radius: 999px;
-      background: rgba(255,255,255,.74); backdrop-filter: blur(16px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.055);
-    }
-    .brand { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; font-weight: 650; }
-    .nav-right { display: flex; align-items: center; gap: 18px; }
-    .nav-links { display: flex; gap: 18px; font-size: 13px; color: var(--muted); }
-    .language-switcher { display: flex; gap: 6px; font-size: 12px; color: var(--muted); border-left: 1px solid var(--line); padding-left: 14px; }
-    .language-switcher a { padding: 5px 8px; border-radius: 999px; transition: .2s ease; }
-    .language-switcher a:hover, .language-switcher a.active { background: var(--ink); color: var(--paper); }
-    .hero { min-height: 100vh; display: grid; place-items: center; padding: 140px 24px 80px; }
-    .hero-inner { width: min(1120px,100%); display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center; }
-    .eyebrow { color: var(--muted); text-transform: uppercase; letter-spacing: .17em; font-size: 12px; font-weight: 750; margin-bottom: 24px; }
-    h1 { margin: 0; font-size: clamp(48px,8vw,104px); line-height: .92; letter-spacing: -.06em; font-weight: 520; }
-    .hero-copy { margin-top: 28px; max-width: 680px; font-size: clamp(20px,2.2vw,30px); line-height: 1.28; color: #242424; }
-    .hero-note { margin-top: 30px; max-width: 560px; color: var(--muted); line-height: 1.7; font-size: 16px; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-    .button { border: 1px solid var(--ink); border-radius: 999px; padding: 13px 20px; font-size: 14px; transition: .2s ease; background: transparent; }
-    .button.primary { background: var(--ink); color: var(--paper); }
-    .button:hover { transform: translateY(-2px); }
-    .visual-card {
-      min-height: 560px; border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.18)),
-        radial-gradient(circle at 50% 35%, rgba(0,0,0,.20), transparent 34%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,.70), transparent 35%), #d8d8d2;
-      border: 1px solid var(--line); position: relative; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,.10);
-    }
-    .visual-card::after { content:""; position:absolute; inset:24px; border:1px solid rgba(255,255,255,.50); border-radius:22px; pointer-events:none; }
-    .floating-panel { position:absolute; left:24px; right:24px; bottom:24px; padding:22px; border-radius:22px; background:rgba(255,255,255,.80); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,.72); z-index:2; }
-    .floating-panel h3 { margin: 0 0 8px; font-size: 20px; }
-    .floating-panel p { margin: 0; color: var(--muted); line-height: 1.55; }
-    section { padding: 92px 24px; }
-    .container { width: min(1120px,100%); margin: 0 auto; }
-    .section-header { display:grid; grid-template-columns:.8fr 1.2fr; gap:44px; margin-bottom:46px; align-items:end; }
-    .section-header h2 { margin:0; font-size:clamp(34px,5vw,64px); line-height:.98; letter-spacing:-.045em; font-weight:520; }
-    .section-header p { margin:0; color:var(--muted); line-height:1.75; font-size:17px; }
-    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-    .card { background:var(--soft); border:1px solid var(--line-soft); border-radius:24px; padding:28px; min-height:220px; box-shadow:0 18px 50px rgba(0,0,0,.035); }
-    .card-number { color:var(--soft-muted); font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:750; margin-bottom:28px; }
-    .card h3 { margin:0 0 14px; font-size:24px; letter-spacing:-.03em; }
-    .card p { margin:0; color:var(--muted); line-height:1.7; white-space:pre-line; }
-    .quote { padding:96px 24px; text-align:center; }
-    .quote blockquote { width:min(900px,100%); margin:0 auto; font-size:clamp(34px,5vw,72px); line-height:1.05; letter-spacing:-.055em; font-weight:520; }
-    .quote p { margin:28px auto 0; width:min(620px,100%); color:var(--muted); line-height:1.7; }
-    .dynamic-section { display:none; }
-    .dynamic-section.is-visible { display:block; }
-    footer { padding:28px 24px 40px; color:var(--muted); font-size:13px; text-align:center; }
-    @media (max-width: 860px) {
-      .nav-links { display:none; }
-      .nav-right { gap: 8px; }
-      .language-switcher { border-left: none; padding-left: 0; }
-      .hero-inner, .section-header, .grid-3 { grid-template-columns:1fr; }
-      .visual-card { min-height:420px; }
-    }
+    :root{--bg:#f7f6f1;--paper:#fff;--ink:#111;--muted:#6c6a64;--line:rgba(0,0,0,.1);--soft:rgba(255,255,255,.72);--radius:28px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1080px,calc(100% - 32px));z-index:20;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);box-shadow:0 10px 36px rgba(0,0,0,.055)}
+    .brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;white-space:nowrap}.nav-right{display:flex;align-items:center;gap:18px}.nav-links{display:flex;gap:18px;font-size:13px;color:var(--muted)}
+    .language-switcher{display:flex;gap:5px;font-size:12px;color:var(--muted);border-left:1px solid var(--line);padding-left:14px}.language-switcher a{padding:5px 7px;border-radius:999px}.language-switcher a.active{background:var(--ink);color:var(--paper)}
+    .hero{min-height:100vh;display:flex;align-items:center;padding:130px 24px 80px}.hero-inner{width:min(1080px,100%);margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+    .eyebrow{color:var(--muted);text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:650;margin-bottom:24px}
+    h1{margin:0;max-width:760px;font-size:clamp(40px,6vw,78px);line-height:1.02;letter-spacing:-.045em;font-weight:430}
+    .hero-copy{margin-top:30px;max-width:620px;font-size:clamp(19px,2vw,25px);line-height:1.42;color:#272727;font-weight:390}
+    .hero-note{margin-top:24px;max-width:560px;color:var(--muted);line-height:1.75;font-size:15px}
+    .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}.button{border:1px solid var(--ink);border-radius:999px;padding:12px 18px;font-size:13px;background:transparent}.button.primary{background:var(--ink);color:var(--paper)}
+    .visual-card{min-height:520px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80") center/cover;border:1px solid var(--line);overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.10)}
+    section{padding:96px 24px}.container{width:min(1080px,100%);margin:0 auto}.section-header{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;margin-bottom:38px;align-items:start}
+    .section-header h2{margin:0;font-size:clamp(30px,4vw,52px);line-height:1.04;letter-spacing:-.035em;font-weight:430}.section-header p{margin:0;color:var(--muted);line-height:1.75;font-size:16px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--soft);border:1px solid rgba(0,0,0,.06);border-radius:22px;padding:24px;min-height:190px}
+    .card-number{color:var(--muted);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:22px}.card h3{margin:0 0 12px;font-size:22px;letter-spacing:-.025em;font-weight:460}.card p{margin:0;color:var(--muted);line-height:1.72;font-size:15px;white-space:pre-line}
+    .quote{padding:96px 24px;text-align:center}.quote blockquote{width:min(800px,100%);margin:0 auto;font-size:clamp(30px,4.2vw,58px);line-height:1.12;letter-spacing:-.045em;font-weight:420}.quote p{margin:26px auto 0;width:min(620px,100%);color:var(--muted);line-height:1.7;font-size:15px}
+    .dynamic-section{display:none}.dynamic-section.is-visible{display:block}footer{padding:28px 24px 42px;color:var(--muted);font-size:13px;text-align:center}
+    @media(max-width:860px){.nav-links{display:none}.language-switcher{border-left:none;padding-left:0}.hero-inner,.section-header,.grid-3{grid-template-columns:1fr}.hero{padding-top:120px}.visual-card{min-height:360px}}
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <a href="#top" class="brand" id="site-title">Alex Zaviiskyi</a>
-    <div class="nav-right">
-      <div class="nav-links">
-        <a href="#about-dynamic">About</a>
-        <a href="#practice-dynamic">Practice</a>
-        <a href="#projects-dynamic">Projects</a>
-        <a href="#notes-dynamic">Notes</a>
-      </div>
-      <div class="language-switcher" aria-label="Language switcher">
-        <a href="/en/" id="lang-en">EN</a>
-        <a href="/ru/" id="lang-ru">RU</a>
-        <a href="/es/" id="lang-es">ES</a>
-      </div>
-    </div>
-  </nav>
-
+  <nav class="nav"><a href="#top" class="brand" id="site-title">Alex Zaviiskyi</a><div class="nav-right"><div class="nav-links"><a href="#about-dynamic">About</a><a href="#practice-dynamic">Practice</a><a href="#projects-dynamic">Projects</a><a href="#notes-dynamic">Notes</a></div><div class="language-switcher"><a href="/en/" id="lang-en">EN</a><a href="/ru/" id="lang-ru">RU</a><a href="/es/" id="lang-es">ES</a></div></div></nav>
   <main id="top">
-    <section class="hero">
-      <div class="hero-inner">
-        <div>
-          <div class="eyebrow" id="hero-eyebrow">Human Development · Practice · Daily Life</div>
-          <h1 id="hero-title">A simple human life developing internally and externally at the same time.</h1>
-          <p class="hero-copy" id="hero-copy">My life gradually evolved around two parallel interests: hospitality systems and inner human development.</p>
-          <p class="hero-note" id="hero-note">I am interested in how life changes when the human nervous system becomes calmer, clearer, and less fragmented.</p>
-          <div class="cta-row">
-            <a class="button primary" href="#about-dynamic">About</a>
-            <a class="button" href="#projects-dynamic">Projects</a>
-          </div>
-        </div>
-        <div class="visual-card">
-          <div class="floating-panel">
-            <h3>A living structure.</h3>
-            <p>The site is connected to Sanity and can evolve through content, notes, projects and practice.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about-dynamic" class="dynamic-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>About</h2>
-          <p id="about-intro"></p>
-        </div>
-        <div class="grid-3" id="about-cards"></div>
-      </div>
-    </section>
-
-    <section id="practice-dynamic" class="dynamic-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Practice</h2>
-          <p id="practice-intro"></p>
-        </div>
-        <div class="grid-3" id="practice-cards"></div>
-      </div>
-    </section>
-
-    <section id="notes-dynamic" class="dynamic-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Notes</h2>
-          <p>Short observations, fragments, and living thoughts from the CMS.</p>
-        </div>
-        <div class="grid-3" id="notes-list"></div>
-      </div>
-    </section>
-
-    <section id="projects-dynamic" class="dynamic-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Projects</h2>
-          <p>Active directions and related work connected to this personal site.</p>
-        </div>
-        <div class="grid-3" id="projects-list"></div>
-      </div>
-    </section>
-
-    <section class="quote" id="contact">
-      <blockquote>A coherent life may begin when inner development and practical life stop fighting each other.</blockquote>
-      <p id="closing-text">Hospitality systems, collective practice, and ancient knowledge are different expressions of the same search.</p>
-    </section>
+    <section class="hero"><div class="hero-inner"><div><div class="eyebrow" id="hero-eyebrow">Practice · Hospitality · Inner Development</div><h1 id="hero-title">A human life gradually reorganizing itself around practice and inner development.</h1><p class="hero-copy" id="hero-copy">This site is a simple living structure for several connected directions: practice, hospitality systems, Vedic technologies, and observations on consciousness.</p><p class="hero-note" id="hero-note">It is not a finished philosophy or personal brand. It is a place where real experience, projects, and practice can gradually become more clear.</p><div class="cta-row"><a class="button primary" href="#projects-dynamic">Projects</a><a class="button" href="#about-dynamic">About</a></div></div><div class="visual-card" aria-label="Quiet visual image"></div></div></section>
+    <section id="about-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>About</h2><p id="about-intro"></p></div><div class="grid-3" id="about-cards"></div></div></section>
+    <section id="practice-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Practice</h2><p id="practice-intro"></p></div><div class="grid-3" id="practice-cards"></div></div></section>
+    <section id="projects-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Projects</h2><p>Active directions and related work connected to this personal site.</p></div><div class="grid-3" id="projects-list"></div></div></section>
+    <section id="notes-dynamic" class="dynamic-section"><div class="container"><div class="section-header"><h2>Notes</h2><p>Short observations, fragments, and living thoughts.</p></div><div class="grid-3" id="notes-list"></div></div></section>
+    <section class="quote" id="contact"><blockquote>A coherent life may begin when inner development and practical life stop fighting each other.</blockquote><p id="closing-text">This site will stay simple while the structure becomes clearer over time.</p></section>
   </main>
-
   <footer id="footer-text">Alex Zaviiskyi · Dominican Republic</footer>
-
   <script>
-    const PROJECT_ID = '0po0panc'
-    const DATASET = 'production'
-    const API_VERSION = '2025-05-20'
-
-    const pathLang = window.location.pathname.split('/').filter(Boolean)[0]
-    const lang = ['en', 'ru', 'es'].includes(pathLang) ? pathLang : 'en'
-    document.documentElement.lang = lang
-    const activeLang = document.getElementById('lang-' + lang)
-    if (activeLang) activeLang.classList.add('active')
-
-    const query = encodeURIComponent(`{
-      "siteSettings": *[_type == "siteSettings"][0]{siteTitle, subtitle, email, instagram, telegram},
-      "homePage": *[_type == "homePage"][0]{heroEyebrow, heroTitle, heroCopy, heroNote, intro, philosophyBlock, closingLine, currentFocus},
-      "aboutPage": *[_type == "aboutPage"][0]{intro, practiceBackground, currentDirection, closing},
-      "practicePage": *[_type == "practicePage"][0]{intro, tmSection, sriYogaSection, siddhiDirection, participation, donation},
-      "notes": *[_type == "note"] | order(publishedAt desc){title, slug, shortText, longText, publishedAt},
-      "projects": *[_type == "project"] | order(_createdAt asc){title, slug, description, status, externalLink}
-    }`)
-
-    const url = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`
-
-    function read(value) {
-      if (!value) return ''
-      if (typeof value === 'string') return value
-      if (typeof value === 'object') return value[lang] || value.en || value.ru || value.es || ''
-      return ''
-    }
-
-    function setText(id, value) {
-      const el = document.getElementById(id)
-      const text = read(value)
-      if (el && text) el.innerText = text
-    }
-
-    function showSection(id) {
-      const el = document.getElementById(id)
-      if (el) el.classList.add('is-visible')
-    }
-
-    function card(label, title, body) {
-      return `<article class="card">
-        ${label ? `<div class="card-number">${label}</div>` : ''}
-        ${title ? `<h3>${title}</h3>` : ''}
-        ${body ? `<p>${body}</p>` : ''}
-      </article>`
-    }
-
-    function renderAbout(about) {
-      if (!about) return
-      setText('about-intro', about.intro)
-      const items = [
-        ['Practice Background', read(about.practiceBackground)],
-        ['Current Direction', read(about.currentDirection)],
-        ['Closing', read(about.closing)]
-      ].filter(item => item[1])
-      if (items.length || read(about.intro)) {
-        document.getElementById('about-cards').innerHTML = items.map(([title, body]) => card('', title, body)).join('')
-        showSection('about-dynamic')
-      }
-    }
-
-    function renderPractice(practice) {
-      if (!practice) return
-      setText('practice-intro', practice.intro)
-      const items = [
-        ['TM', read(practice.tmSection)],
-        ['Sri Yoga Asanas', read(practice.sriYogaSection)],
-        ['Siddhi Direction', read(practice.siddhiDirection)],
-        ['Participation', read(practice.participation)],
-        ['Donation', read(practice.donation)]
-      ].filter(item => item[1])
-      if (items.length || read(practice.intro)) {
-        document.getElementById('practice-cards').innerHTML = items.map(([title, body]) => card('', title, body)).join('')
-        showSection('practice-dynamic')
-      }
-    }
-
-    function renderNotes(notes = []) {
-      const visible = notes.filter(item => read(item.title) || read(item.shortText) || read(item.longText))
-      if (!visible.length) return
-      document.getElementById('notes-list').innerHTML = visible.map((item, index) => {
-        const title = read(item.title) || 'Untitled'
-        const body = read(item.shortText) || read(item.longText)
-        return card(String(index + 1).padStart(2, '0'), title, body)
-      }).join('')
-      showSection('notes-dynamic')
-    }
-
-    function renderProjects(projects = []) {
-      const visible = projects.filter(item => read(item.title) || read(item.description))
-      if (!visible.length) return
-      document.getElementById('projects-list').innerHTML = visible.map((item, index) => {
-        const title = read(item.title) || 'Untitled'
-        const description = read(item.description)
-        const status = read(item.status)
-        return card(status || String(index + 1).padStart(2, '0'), title, description)
-      }).join('')
-      showSection('projects-dynamic')
-    }
-
-    async function loadContent() {
-      try {
-        const res = await fetch(url)
-        const json = await res.json()
-        const data = json.result || {}
-        console.log('SANITY DATA:', data)
-
-        if (data.siteSettings) {
-          setText('site-title', data.siteSettings.siteTitle)
-          setText('footer-text', data.siteSettings.subtitle)
-        }
-
-        if (data.homePage) {
-          setText('hero-eyebrow', data.homePage.heroEyebrow)
-          setText('hero-title', data.homePage.heroTitle)
-          setText('hero-copy', data.homePage.heroCopy)
-          setText('hero-note', data.homePage.heroNote)
-          setText('closing-text', data.homePage.closingLine || data.homePage.currentFocus)
-        }
-
-        renderAbout(data.aboutPage)
-        renderPractice(data.practicePage)
-        renderNotes(data.notes)
-        renderProjects(data.projects)
-      } catch (err) {
-        console.error('SANITY LOAD ERROR:', err)
-      }
-    }
-
-    loadContent()
+    const PROJECT_ID='0po0panc',DATASET='production',API_VERSION='2025-05-20';
+    const pathLang=window.location.pathname.split('/').filter(Boolean)[0];const lang=['en','ru','es'].includes(pathLang)?pathLang:'en';document.documentElement.lang=lang;const activeLang=document.getElementById('lang-'+lang);if(activeLang)activeLang.classList.add('active');
+    const query=encodeURIComponent(`{"siteSettings":*[_type=="siteSettings"][0]{siteTitle,subtitle,email,instagram,telegram},"homePage":*[_type=="homePage"][0]{heroEyebrow,heroTitle,heroCopy,heroNote,intro,philosophyBlock,closingLine,currentFocus},"aboutPage":*[_type=="aboutPage"][0]{intro,practiceBackground,currentDirection,closing},"practicePage":*[_type=="practicePage"][0]{intro,tmSection,sriYogaSection,siddhiDirection,participation,donation},"notes":*[_type=="note"]|order(publishedAt desc)[0...3]{title,slug,shortText,longText,publishedAt},"projects":*[_type=="project"]|order(_createdAt asc)[0...3]{title,slug,description,status,externalLink}}`);
+    const url=`https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`;
+    function read(value){if(!value)return'';if(typeof value==='string')return value;if(typeof value==='object')return value[lang]||value.en||value.ru||value.es||'';return''}
+    function setText(id,value){const el=document.getElementById(id);const text=read(value);if(el&&text)el.innerText=text}
+    function showSection(id){const el=document.getElementById(id);if(el)el.classList.add('is-visible')}
+    function card(label,title,body){return `<article class="card">${label?`<div class="card-number">${label}</div>`:''}${title?`<h3>${title}</h3>`:''}${body?`<p>${body}</p>`:''}</article>`}
+    function renderAbout(about){if(!about)return;setText('about-intro',about.intro);const items=[['Practice Background',read(about.practiceBackground)],['Current Direction',read(about.currentDirection)],['Closing',read(about.closing)]].filter(i=>i[1]);if(items.length||read(about.intro)){document.getElementById('about-cards').innerHTML=items.map(([t,b])=>card('',t,b)).join('');showSection('about-dynamic')}}
+    function renderPractice(practice){if(!practice)return;setText('practice-intro',practice.intro);const items=[['TM',read(practice.tmSection)],['Sri Yoga Asanas',read(practice.sriYogaSection)],['Siddhi Direction',read(practice.siddhiDirection)],['Participation',read(practice.participation)],['Donation',read(practice.donation)]].filter(i=>i[1]);if(items.length||read(practice.intro)){document.getElementById('practice-cards').innerHTML=items.map(([t,b])=>card('',t,b)).join('');showSection('practice-dynamic')}}
+    function renderProjects(projects=[]){const visible=projects.filter(i=>read(i.title)||read(i.description));if(!visible.length)return;document.getElementById('projects-list').innerHTML=visible.map((i,n)=>card(read(i.status)||String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.description))).join('');showSection('projects-dynamic')}
+    function renderNotes(notes=[]){const visible=notes.filter(i=>read(i.title)||read(i.shortText)||read(i.longText));if(!visible.length)return;document.getElementById('notes-list').innerHTML=visible.map((i,n)=>card(String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.shortText)||read(i.longText))).join('');showSection('notes-dynamic')}
+    async function loadContent(){try{const res=await fetch(url);const json=await res.json();const data=json.result||{};if(data.siteSettings){setText('site-title',data.siteSettings.siteTitle);setText('footer-text',data.siteSettings.subtitle)}if(data.homePage){setText('hero-eyebrow',data.homePage.heroEyebrow);setText('hero-title',data.homePage.heroTitle);setText('hero-copy',data.homePage.heroCopy);setText('hero-note',data.homePage.heroNote);setText('closing-text',data.homePage.closingLine||data.homePage.currentFocus)}renderAbout(data.aboutPage);renderPractice(data.practicePage);renderProjects(data.projects);renderNotes(data.notes)}catch(err){console.error('SANITY LOAD ERROR:',err)}}
+    loadContent();
   </script>
 </body>
 </html>
