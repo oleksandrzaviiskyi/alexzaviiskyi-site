@@ -78,11 +78,17 @@
     .quote p { margin: 28px auto 0; width: min(620px, 100%); color: var(--muted); line-height: 1.7; }
     .case-study { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     footer { padding: 28px 24px 40px; color: var(--muted); font-size: 13px; text-align: center; }
+
+    .dynamic-section { display: none; }
+    .dynamic-section.is-visible { display: block; }
+    .dynamic-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .muted-label { color: var(--soft-muted); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 750; margin-bottom: 14px; }
+    .empty-state { color: var(--muted); border: 1px dashed var(--line); border-radius: 22px; padding: 24px; }
     @media (max-width: 860px) {
       .nav-links { display: none; }
       .hero-inner, .section-header, .case-study { grid-template-columns: 1fr; }
       .visual-card { min-height: 420px; }
-      .grid-3 { grid-template-columns: 1fr; }
+      .grid-3, .dynamic-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -91,7 +97,11 @@
     <a href="#top" class="brand">Alex Zaviiskyi</a>
     <div class="nav-links">
       <a href="#work">About</a>
-      <a href="#rita">Projects</a>
+      <a href="#about-dynamic">About Page</a>
+      <a href="#practice-dynamic">Practice</a>
+      <a href="#principles-dynamic">Principles</a>
+      <a href="#notes-dynamic">Notes</a>
+      <a href="#projects-dynamic">Projects</a>
     </div>
   </nav>
   <main id="top">
@@ -144,62 +154,239 @@
         </div>
       </div>
     </section>
+
+    <section id="about-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>About</h2>
+          <p id="about-intro"></p>
+        </div>
+        <div class="grid-3" id="about-cards"></div>
+      </div>
+    </section>
+
+    <section id="practice-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Practice</h2>
+          <p id="practice-intro"></p>
+        </div>
+        <div class="grid-3" id="practice-cards"></div>
+      </div>
+    </section>
+
+    <section id="principles-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Principles</h2>
+          <p>Foundational observations that can be edited directly in Sanity.</p>
+        </div>
+        <div class="dynamic-list" id="principles-list"></div>
+      </div>
+    </section>
+
+    <section id="notes-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Notes</h2>
+          <p>Short observations, fragments, and living thoughts from the CMS.</p>
+        </div>
+        <div class="dynamic-list" id="notes-list"></div>
+      </div>
+    </section>
+
+    <section id="projects-dynamic" class="dynamic-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Projects</h2>
+          <p>Active directions and related work connected to this personal site.</p>
+        </div>
+        <div class="dynamic-list" id="projects-list"></div>
+      </div>
+    </section>
     <section class="quote" id="contact">
       <blockquote>A coherent life may begin when inner development and practical life stop fighting each other.</blockquote>
       <p>Hospitality systems, collective practice, and ancient knowledge are simply three different expressions of the same search for a more balanced and conscious human life.</p>
     </section>
   </main>
   <footer>Alex Zaviiskyi · Hospitality Operations & Guest Experience Systems · Dominican Republic</footer>
-  <script type="module">
-  import { createClient } from 'https://cdn.skypack.dev/@sanity/client'
+  <script>
+  const PROJECT_ID = '0po0panc'
+  const DATASET = 'production'
+  const API_VERSION = '2025-05-20'
 
-  const client = createClient({
-    projectId: '0po0panc',
-    dataset: 'production',
-    apiVersion: '2025-05-20',
-    useCdn: true,
-  })
+  const pathLang = window.location.pathname.split('/').filter(Boolean)[0]
+  const lang = ['en', 'ru', 'es'].includes(pathLang) ? pathLang : 'en'
 
-  const lang = window.location.pathname.startsWith('/ru')
-    ? 'ru'
-    : window.location.pathname.startsWith('/es')
-      ? 'es'
-      : 'en'
+  const query = encodeURIComponent(`{
+    "homePage": *[_type == "homePage"][0]{
+      heroEyebrow,
+      heroTitle,
+      heroCopy,
+      heroNote
+    },
+    "aboutPage": *[_type == "aboutPage"][0]{
+      intro,
+      practiceBackground,
+      currentDirection,
+      closing
+    },
+    "practicePage": *[_type == "practicePage"][0]{
+      intro,
+      tmSection,
+      sriYogaSection,
+      siddhiDirection,
+      participation,
+      donation
+    },
+    "principles": *[_type == "principle"] | order(order asc){
+      title,
+      statement,
+      reflection,
+      order
+    },
+    "notes": *[_type == "note"] | order(publishedAt desc){
+      title,
+      slug,
+      shortText,
+      longText,
+      publishedAt
+    },
+    "projects": *[_type == "project"] | order(_createdAt asc){
+      title,
+      slug,
+      description,
+      status,
+      externalLink
+    }
+  }`)
 
-  const query = `*[_type == "homePage"][0]{
-    heroEyebrow,
-    heroTitle,
-    heroCopy,
-    heroNote
-  }`
+  const url = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`
 
-  function localized(value) {
+  function read(value) {
     if (!value) return ''
     if (typeof value === 'string') return value
-    return value[lang] || value.en || value.ru || value.es || ''
+    if (typeof value === 'object') return value[lang] || value.en || value.ru || value.es || ''
+    return ''
   }
 
   function setText(id, value) {
     const el = document.getElementById(id)
-    const text = localized(value)
-    if (el && text) el.textContent = text
+    const text = read(value)
+    if (el && text) el.innerText = text
   }
 
-  async function loadContent() {
+  function showSection(id) {
+    const el = document.getElementById(id)
+    if (el) el.classList.add('is-visible')
+  }
+
+  function card(label, title, body) {
+    return `
+      <article class="card">
+        ${label ? `<div class="card-number">${label}</div>` : ''}
+        ${title ? `<h3>${title}</h3>` : ''}
+        ${body ? `<p>${body}</p>` : ''}
+      </article>
+    `
+  }
+
+  function compact(items) {
+    return items.filter(item => item && String(item).trim().length > 0)
+  }
+
+  function renderAbout(about) {
+    if (!about) return
+    const intro = read(about.intro)
+    const cards = compact([
+      ['Practice Background', read(about.practiceBackground)],
+      ['Current Direction', read(about.currentDirection)],
+      ['Closing', read(about.closing)],
+    ])
+    if (!intro && !cards.length) return
+    setText('about-intro', about.intro)
+    document.getElementById('about-cards').innerHTML = cards.map(([title, body], i) => card(String(i + 1).padStart(2, '0'), title, body)).join('')
+    showSection('about-dynamic')
+  }
+
+  function renderPractice(practice) {
+    if (!practice) return
+    const intro = read(practice.intro)
+    const cards = compact([
+      ['TM Section', read(practice.tmSection)],
+      ['Sri Yoga Section', read(practice.sriYogaSection)],
+      ['Siddhi Direction', read(practice.siddhiDirection)],
+      ['Participation', read(practice.participation)],
+      ['Donation', read(practice.donation)],
+    ])
+    if (!intro && !cards.length) return
+    setText('practice-intro', practice.intro)
+    document.getElementById('practice-cards').innerHTML = cards.map(([title, body], i) => card(String(i + 1).padStart(2, '0'), title, body)).join('')
+    showSection('practice-dynamic')
+  }
+
+  function renderPrinciples(principles = []) {
+    const items = principles.filter(item => read(item.title) || read(item.statement) || read(item.reflection))
+    if (!items.length) return
+    document.getElementById('principles-list').innerHTML = items.map((item, i) => {
+      const body = compact([read(item.statement), read(item.reflection)]).join('<br><br>')
+      return card(item.order ? String(item.order).padStart(2, '0') : String(i + 1).padStart(2, '0'), read(item.title), body)
+    }).join('')
+    showSection('principles-dynamic')
+  }
+
+  function renderNotes(notes = []) {
+    const items = notes.filter(item => read(item.title) || read(item.shortText) || read(item.longText))
+    if (!items.length) return
+    document.getElementById('notes-list').innerHTML = items.map((item, i) => {
+      const date = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : String(i + 1).padStart(2, '0')
+      const body = read(item.shortText) || read(item.longText)
+      return card(date, read(item.title), body)
+    }).join('')
+    showSection('notes-dynamic')
+  }
+
+  function renderProjects(projects = []) {
+    const items = projects.filter(item => read(item.title) || read(item.description))
+    if (!items.length) return
+    document.getElementById('projects-list').innerHTML = items.map((item, i) => {
+      const title = read(item.title)
+      const link = item.externalLink ? `<p style="margin-top:18px;"><a class="button" href="${item.externalLink}" target="_blank" rel="noopener">Open project</a></p>` : ''
+      return `
+        <article class="card">
+          <div class="card-number">${read(item.status) || String(i + 1).padStart(2, '0')}</div>
+          ${title ? `<h3>${title}</h3>` : ''}
+          ${read(item.description) ? `<p>${read(item.description)}</p>` : ''}
+          ${link}
+        </article>
+      `
+    }).join('')
+    showSection('projects-dynamic')
+  }
+
+  async function loadSanityContent() {
     try {
-      const data = await client.fetch(query)
+      const res = await fetch(url)
+      const json = await res.json()
+      const data = json.result || {}
       console.log('SANITY DATA:', data)
 
-      setText('hero-eyebrow', data?.heroEyebrow)
-      setText('hero-title', data?.heroTitle)
-      setText('hero-copy', data?.heroCopy)
-      setText('hero-note', data?.heroNote)
+      setText('hero-eyebrow', data.homePage?.heroEyebrow)
+      setText('hero-title', data.homePage?.heroTitle)
+      setText('hero-copy', data.homePage?.heroCopy)
+      setText('hero-note', data.homePage?.heroNote)
+
+      renderAbout(data.aboutPage)
+      renderPractice(data.practicePage)
+      renderPrinciples(data.principles)
+      renderNotes(data.notes)
+      renderProjects(data.projects)
     } catch (error) {
-      console.error('Sanity loading error:', error)
+      console.error('Sanity API error:', error)
     }
   }
 
-  loadContent()
-</script>
+  loadSanityContent()
+  </script>
 </body>
 </html>
