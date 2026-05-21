@@ -153,12 +153,34 @@
       showSection('projects-dynamic');
     }
 
-    function renderNotes(notes=[]){
-      const visible=notes.filter(i=>read(i.title)||read(i.shortText)||read(i.longText));
-      if(!visible.length)return;
-      document.getElementById('notes-list').innerHTML=visible.map((i,n)=>card(String(n+1).padStart(2,'0'),read(i.title)||'Untitled',read(i.shortText)||read(i.longText))).join('');
-      showSection('notes-dynamic');
-    }
+    function renderProjects(projects=[]){
+  const visible=projects.filter(i=>read(i.title)||read(i.description));
+
+  if(!visible.length)return;
+
+  document.getElementById('projects-list').innerHTML =
+    visible.map((i,n)=>{
+
+      const title = read(i.title)||'Untitled';
+      const description = read(i.description)||'';
+      const status = read(i.status)||String(n+1).padStart(2,'0');
+
+      if(title.toLowerCase().includes('rita')){
+        return `
+          <a href="https://ritaops.com"
+             target="_blank"
+             style="display:block;text-decoration:none;color:inherit">
+            ${card(status,title,description)}
+          </a>
+        `;
+      }
+
+      return card(status,title,description);
+
+    }).join('');
+
+  showSection('projects-dynamic');
+}
 
     async function loadContent(){
       try{
